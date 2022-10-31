@@ -11,69 +11,82 @@ These are the notes from a meeting with the frontend developer that describe wha
 - [OPTIONAL] Top 5 most popular products 
 - [OPTIONAL] Products by category (args: product category)
 
-##### Map of endpoints for Products
+##### **Map of endpoints for Products**
 required
-[C] /products      POST  [token required]
-[R] /products      GET
-    /products/:id  GET
-[U] N/A
-[D] N/A
-
+```
+- [C] /products      POST  [token required]  
+- [R] /products      GET  
+      /products/:id  GET  
+- [U] N/A  
+- [D] N/A  
+```
 optional
-[R] /products/most-popular  GET
-    /products               GET (args: category)
+```
+- [R] /products/most-popular  GET  
+      /products               GET (args: category)
+```
 
 #### Users
 - Index [token required]
 - Show [token required]
 - Create N[token required]
 
-##### Map of endpoints for Users
+##### **Map of endpoints for Users**
+```
 required
-[C] /users        POST  [token required]
-[R] /users        GET   [token required]
-    /users/:id    GET   [token required]
-[U] N/A
-[D] N/A
+- [C] /users        POST  [token required]
+- [R] /users        GET   [token required]
+      /users/:id    GET   [token required]
+- [U] N/A
+- [D] N/A
+```
 
 optional
-[R] /users/login  POST   (args: user_id, password)
+```
+- [R] /users/login  POST   (args: user_id, password)
+```
 
 #### Orders
 - Current Order by user (args: user id)[token required]
 - [OPTIONAL] Completed Orders by user (args: user id)[token required]
 
-##### Map of endpoints for Orders
+##### **Map of endpoints for Orders**
 required
-[C] /orders      POST  (args: user_id, productQty)   [token required]
-args: productQty should have string format like: 
+```
+- [C] /orders      POST  (args: user_id, productQty)   [token required]
+                                   args: productQty should have string format like: 
 
-[R] /orders      GET   (args: user_id)               [token required]
-    /orders/:id  GET   (args: user_id)               [token required]
-[U] /orders/:id  PUT   (args: user_id)               [token required]
-[D] N/A
+- [R] /orders      GET   (args: user_id)               [token required]
+      /orders/:id  GET   (args: user_id)               [token required]
+- [U] /orders/:id  PUT   (args: user_id)               [token required]
+- [D] N/A
+```
 
-## Data Shapes
+## **Data Shapes**
 #### Product
 -  id
 - name
 - price
 - [OPTIONAL] category
 
-##### DB Schema
+##### **DB Schema**
+```
 CREATE TABLE IF NOT EXISTS products (
   id SERIAL PRIMARY KEY,
   name VARCHAR(100),
   price integer,
   category VARCHAR(100)
 );
-##### Data shape
-export type Product = {
-  id: number;
-  name: string;
-  price: number;
-  category: string;
+```
+##### **Data shape**
+```
+export type Product = {  
+  id: number;  
+  name: string;  
+  price: number;  
+  category: string;  
 }
+```
 
 #### User
 - id
@@ -81,22 +94,26 @@ export type Product = {
 - lastName
 - password
 
-##### DB Schema
-CREATE TABLE IF NOT EXISTS users (
-  id SERIAL PRIMARY KEY,
-  firstName VARCHAR(100),
-  lastName VARCHAR(100),
-  password VARCHAR,
-  role VARCHAR(100)
+##### **DB Schema**
+```
+CREATE TABLE IF NOT EXISTS users (  
+  id SERIAL PRIMARY KEY,  
+  firstName VARCHAR(100),  
+  lastName VARCHAR(100),  
+  password VARCHAR,  
+  role VARCHAR(100)  
 );
-##### Data shape
-export type User = {
-  id: number;
-  firstName: string;
-  lastName: string;
-  password: string;
-  role: string;
+```
+##### **Data shape**
+```
+export type User = {  
+  id: number;  
+  firstName: string;  
+  lastName: string;  
+  password: string;  
+  role: string;  
 }
+```
 
 #### Orders
 - id
@@ -105,31 +122,39 @@ export type User = {
 - user_id
 - status of order (active or complete)
 
-##### DB Schema
-CREATE TABLE IF NOT EXISTS orders (
-  id SERIAL PRIMARY KEY,
-  user_id SERIAL REFERENCES users,
-  status VARCHAR(100)
+##### **DB Schema**
+```
+CREATE TABLE IF NOT EXISTS orders (  
+  id SERIAL PRIMARY KEY,  
+  user_id SERIAL REFERENCES users,  
+  status VARCHAR(100)  
 );
-##### Data shape
-export type Order = {
-  id: number;
-  user_id: number;
-  status: string;
+```
+##### **Data shape**
+```
+export type Order = {  
+  id: number;  
+  user_id: number;  
+  status: string;  
 }
+```
 
 #### Order Product
-##### DB Schema
-CREATE TABLE IF NOT EXISTS order_product (
-  id SERIAL PRIMARY KEY,
-  product_id SERIAL REFERENCES products,
-  order_id SERIAL REFERENCES orders,
-  quantity integer,
+##### **DB Schema**
+```
+CREATE TABLE IF NOT EXISTS order_product (  
+  id SERIAL PRIMARY KEY,  
+  product_id SERIAL REFERENCES products,  
+  order_id SERIAL REFERENCES orders,  
+  quantity integer,  
 );
-##### Data shape
-export type OrderProduct = {
-  id: number;
-  order_id: number;
-  product_id: number;
-  quantity: number;
+```
+##### **Data shape**
+```
+export type OrderProduct = {  
+  id: number;  
+  order_id: number;  
+  product_id: number;  
+  quantity: number;  
 }
+```
