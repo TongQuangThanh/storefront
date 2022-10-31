@@ -69,7 +69,7 @@ const userRouters = (app: express.Application) => {
   app.post('/users/login', login);                // login
   app.get('/users', adminAuthorization, index);   // admin see all user
   app.get('/users/:id', userAuthenticated, show); // user see user info
-  app.post('/users', adminAuthorization, create); // admin create user
+  app.post('/users', create);                     // create user
 };
 
 export default userRouters;

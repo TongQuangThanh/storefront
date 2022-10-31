@@ -4,8 +4,6 @@ import { generateErrorOnCreate, generateErrorOnFetch } from "../utils";
 export type Order = {
   id: number;
   user_id: number;
-  product_id: number;
-  quantity: number;
   status: string;
 }
 
@@ -47,9 +45,9 @@ export class OrderStore {
 
   async create(o: Order): Promise<Order> {
     try {
-      const sql = 'INSERT INTO Orders (user_id, product_id, quantity, status) VALUES($1, $2, $3, $4) RETURNING *';
+      const sql = 'INSERT INTO Orders (user_id, status) VALUES($1, $2) RETURNING *';
       const conn = await Client.connect();
-      const result = await conn.query(sql, [o.user_id, o.product_id, o.quantity, o.status]);
+      const result = await conn.query(sql, [o.user_id, o.status]);
       const order = result.rows[0];
       conn.release();
       return order;

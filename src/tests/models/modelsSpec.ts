@@ -1,12 +1,14 @@
+import { OrderProductStore } from "../../models/order-product";
 import { OrderStore } from "../../models/orders";
 import { ProductStore } from "../../models/products";
 import { UserStore } from "../../models/users";
-import { admin, category, completedStatus, id, order, product, user, userId, userPassword } from "./const";
+import { admin, category1, completedStatus, id1, order, orderId, product1, product2, productQty, user, userId, userPassword } from "./const";
 
 const orderStore = new OrderStore();
 const userStore = new UserStore();
 const productStore = new ProductStore();
-
+const orderProductStore = new OrderProductStore();
+let createdOrderId = 0;
 
 describe("User model", () => {
   it("should have an index method", () => {
@@ -82,10 +84,17 @@ describe("Product model", () => {
 
 
   it('create method should add a product', async () => {
-    const result = await productStore.create(product);
-    expect(result.name).toEqual(product.name);
-    expect(result.price).toEqual(product.price);
-    expect(result.category).toEqual(product.category);
+    const result = await productStore.create(product1);
+    expect(result.name).toEqual(product1.name);
+    expect(result.price).toEqual(product1.price);
+    expect(result.category).toEqual(product1.category);
+  });
+
+  it('create method should add a product', async () => {
+    const result = await productStore.create(product2);
+    expect(result.name).toEqual(product2.name);
+    expect(result.price).toEqual(product2.price);
+    expect(result.category).toEqual(product2.category);
   });
 
   it('index method should return a list of products', async () => {
@@ -94,12 +103,12 @@ describe("Product model", () => {
   });
 
   it('show method should return the correct product', async () => {
-    const result = await productStore.show(id);
+    const result = await productStore.show(id1);
     expect(result).toBeTruthy();
   });
 
   it('showProductByCategory method should return the correct product', async () => {
-    const result = await productStore.showProductByCategory(category);
+    const result = await productStore.showProductByCategory(category1);
     expect(result.length).toBeGreaterThanOrEqual(1);
   });
 });
@@ -126,6 +135,7 @@ describe("Order model", () => {
 
   it('create method should add a order', async () => {
     const result = await orderStore.create(order);
+    createdOrderId = result.id;
     expect(result).toBeTruthy();
   });
 
@@ -142,12 +152,26 @@ describe("Order model", () => {
 
 
   it('show method should return the correct order', async () => {
-    const result = await orderStore.show(userId, id);
+    const result = await orderStore.show(userId, orderId);
     expect(result).toBeTruthy();
   });
 
   it('updateStatus method should return the correct order', async () => {
-    const rowCount = await orderStore.updateStatus(id, completedStatus);
+    const rowCount = await orderStore.updateStatus(orderId, completedStatus);
     expect(rowCount).toEqual(1);
   });
+});
+
+
+describe("Order Product model", () => {
+  it('should have a create method', () => {
+    expect(orderProductStore.create).toBeDefined();
+  });
+
+
+  it('create method should add record to order product table', async () => {
+    const result = await orderProductStore.create(createdOrderId, productQty);
+    expect(result.length).toBeGreaterThanOrEqual(productQty.length);
+  });
+
 });

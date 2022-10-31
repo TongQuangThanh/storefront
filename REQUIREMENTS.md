@@ -45,10 +45,12 @@ optional
 
 ##### Map of endpoints for Orders
 required
-[C] /orders      POST  (args: user_id)   [token required]
-[R] /orders      GET   (args: user_id)   [token required]
-    /orders/:id  GET   (args: user_id)   [token required]
-[U] /orders/:id  PUT   (args: user_id)   [token required]
+[C] /orders      POST  (args: user_id, productQty)   [token required]
+args: productQty should have string format like: 
+
+[R] /orders      GET   (args: user_id)               [token required]
+    /orders/:id  GET   (args: user_id)               [token required]
+[U] /orders/:id  PUT   (args: user_id)               [token required]
 [D] N/A
 
 ## Data Shapes
@@ -106,17 +108,28 @@ export type User = {
 ##### DB Schema
 CREATE TABLE IF NOT EXISTS orders (
   id SERIAL PRIMARY KEY,
-  product_id SERIAL REFERENCES products,
   user_id SERIAL REFERENCES users,
-  quantity integer,
   status VARCHAR(100)
 );
 ##### Data shape
-
 export type Order = {
   id: number;
   user_id: number;
+  status: string;
+}
+
+#### Order Product
+##### DB Schema
+CREATE TABLE IF NOT EXISTS order_product (
+  id SERIAL PRIMARY KEY,
+  product_id SERIAL REFERENCES products,
+  order_id SERIAL REFERENCES orders,
+  quantity integer,
+);
+##### Data shape
+export type OrderProduct = {
+  id: number;
+  order_id: number;
   product_id: number;
   quantity: number;
-  status: string;
 }

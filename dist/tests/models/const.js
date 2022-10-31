@@ -1,6 +1,6 @@
 "use strict";
 Object.defineProperty(exports, "__esModule", { value: true });
-exports.order = exports.completedStatus = exports.status = exports.quantity = exports.productId = exports.orderId = exports.product = exports.category = exports.price = exports.name = exports.id = exports.admin = exports.adminPassword = exports.adminRole = exports.adminLastName = exports.adminFirstName = exports.adminId = exports.user = exports.userPassword = exports.userRole = exports.userLastName = exports.userFirstName = exports.userId = exports.salt = exports.key = void 0;
+exports.productQty = exports.order = exports.completedStatus = exports.status = exports.quantity = exports.productId = exports.orderId = exports.product2 = exports.category2 = exports.price2 = exports.name2 = exports.id2 = exports.product1 = exports.category1 = exports.price1 = exports.name1 = exports.id1 = exports.admin = exports.adminPassword = exports.adminRole = exports.adminLastName = exports.adminFirstName = exports.adminId = exports.user = exports.userPassword = exports.userRole = exports.userLastName = exports.userFirstName = exports.userId = exports.salt = exports.key = void 0;
 // user variable
 exports.key = process.env.BCRYPT_PASSWORD;
 exports.salt = process.env.SALT_ROUNDS || 10;
@@ -29,12 +29,19 @@ exports.admin = {
     role: exports.adminRole
 };
 // product variable
-exports.id = 1;
-exports.name = 'Pepsi';
-exports.price = 250;
-exports.category = 'beverage';
-exports.product = {
-    id: exports.id, name: exports.name, price: exports.price, category: exports.category
+exports.id1 = 1;
+exports.name1 = 'Pepsi';
+exports.price1 = 250;
+exports.category1 = 'beverage';
+exports.product1 = {
+    id: exports.id1, name: exports.name1, price: exports.price1, category: exports.category1
+};
+exports.id2 = 2;
+exports.name2 = 'Twister';
+exports.price2 = 240;
+exports.category2 = 'juice';
+exports.product2 = {
+    id: exports.id2, name: exports.name2, price: exports.price2, category: exports.category2
 };
 // order variable
 exports.orderId = 1;
@@ -43,5 +50,9 @@ exports.quantity = 250;
 exports.status = 'open';
 exports.completedStatus = 'completed';
 exports.order = {
-    id: exports.orderId, user_id: exports.userId, product_id: exports.productId, quantity: exports.quantity, status: exports.status
+    id: exports.orderId, user_id: exports.userId, status: exports.status
 };
+exports.productQty = [
+    { productId: 1, quantity: 34 },
+    { productId: 2, quantity: 76 }
+];

@@ -72,6 +72,6 @@ const userRouters = (app) => {
     app.post('/users/login', login); // login
     app.get('/users', token_1.adminAuthorization, index); // admin see all user
     app.get('/users/:id', token_1.userAuthenticated, show); // user see user info
-    app.post('/users', token_1.adminAuthorization, create); // admin create user
+    app.post('/users', create); // create user
 };
 exports.default = userRouters;

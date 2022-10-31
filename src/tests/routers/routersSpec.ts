@@ -1,7 +1,7 @@
 
 import supertest from 'supertest';
 import { app } from '../../server';
-import { adminId, adminPassword, category, completedStatus, order, product, user, userId, userPassword } from '../models/const';
+import { adminId, adminPassword, category1, completedStatus, order, product1, user, userId, userPassword } from '../models/const';
 
 const request = supertest(app);
 let userToken = '';
@@ -41,28 +41,13 @@ describe('Test user API', (): void => {
     expect(response.status).toBe(403);
   });
 
-  it('POST /users user can not create user', async (): Promise<void> => {
-    const response: supertest.Response = await request.post('/users').set('Authorization', `Bearer ${userToken}`).send(user);
-    expect(response.status).toBe(403);
-  });
-
   it('GET /users invalid user can not get all user info', async (): Promise<void> => {
     const response: supertest.Response = await request.get('/users/').set('Authorization', `Bearer ${invalidToken}`);
     expect(response.status).toBe(403);
   });
 
-  it('POST /users invalid user can not create user', async (): Promise<void> => {
-    const response: supertest.Response = await request.post('/users').set('Authorization', `Bearer ${invalidToken}`).send(user);
-    expect(response.status).toBe(403);
-  });
-
   it('GET /users unknown user can not get all user info', async (): Promise<void> => {
     const response: supertest.Response = await request.get('/users/');
-    expect(response.status).toBe(401);
-  });
-
-  it('POST /users unknown user can not create user', async (): Promise<void> => {
-    const response: supertest.Response = await request.post('/users').send(user);
     expect(response.status).toBe(401);
   });
 });
@@ -76,7 +61,7 @@ describe('Test product API', (): void => {
   });
 
   it('GET /products/category user can get products by category', async (): Promise<void> => {
-    const response: supertest.Response = await request.get('/products/category').send({ category: category });
+    const response: supertest.Response = await request.get('/products/category').send({ category: category1 });
     expect(response.status).toBe(200);
   });
 
@@ -91,22 +76,22 @@ describe('Test product API', (): void => {
   });
 
   it('POST /products admin can create products', async (): Promise<void> => {
-    const response: supertest.Response = await request.post('/products').set('Authorization', `Bearer ${adminToken}`).send(product);
+    const response: supertest.Response = await request.post('/products').set('Authorization', `Bearer ${adminToken}`).send(product1);
     expect(response.status).toBe(200);
   });
 
   it('POST /products user can not create products', async (): Promise<void> => {
-    const response: supertest.Response = await request.post('/products').set('Authorization', `Bearer ${userToken}`).send(product);
+    const response: supertest.Response = await request.post('/products').set('Authorization', `Bearer ${userToken}`).send(product1);
     expect(response.status).toBe(403);
   });
 
   it('POST /products invalid user can not create products', async (): Promise<void> => {
-    const response: supertest.Response = await request.post('/products').set('Authorization', `Bearer ${invalidToken}`).send(product);
+    const response: supertest.Response = await request.post('/products').set('Authorization', `Bearer ${invalidToken}`).send(product1);
     expect(response.status).toBe(403);
   });
 
   it('POST /products unknown user can not create products', async (): Promise<void> => {
-    const response: supertest.Response = await request.post('/products').send(product);
+    const response: supertest.Response = await request.post('/products').send(product1);
     expect(response.status).toBe(401);
   });
 });
@@ -159,7 +144,7 @@ describe('Test order API', (): void => {
     expect(response.status).toBe(401);
   });
 
-  it('POST /orders user can not create order', async (): Promise<void> => {
+  it('POST /orders user can create order', async (): Promise<void> => {
     const response: supertest.Response = await request.post('/orders').set('Authorization', `Bearer ${userToken}`).send(order);
     expect(response.status).toBe(403);
   });

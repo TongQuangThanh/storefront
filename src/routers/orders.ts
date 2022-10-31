@@ -1,9 +1,11 @@
 import express, { Request, Response } from 'express';
 import { adminAuthorization, userAuthenticated } from '../middleware/token';
+import { OrderProductStore, ProductQty } from '../models/order-product';
 import { OrderStore, Order } from '../models/orders';
 import { errorMissingField, generateErrorOnCreate, generateErrorOnFetch } from '../utils';
 
 const store = new OrderStore();
+const opStore = new OrderProductStore();
 
 const index = async (req: Request, res: Response) => {
   try {
@@ -27,20 +29,18 @@ const show = async (req: Request, res: Response) => {
 };
 
 const create = async (req: Request, res: Response) => {
-  const productId = req.body.productId;
-  const quantity = req.body.quantity;
   const userId = req.query.userId || req.body.quantity || '';
-  if (!productId || !quantity || !userId) return res.status(400).json(errorMissingField);
+  const productQty = JSON.parse(req.body.product) as ProductQty[];
+  if (!userId || !productQty || productQty.length === 0) return res.status(400).json(errorMissingField);
   try {
     const order: Order = {
       id: 0,
-      product_id: productId,
-      quantity,
       user_id: userId,
       status: 'new'
     };
     const createdOrder = await store.create(order);
-    res.status(200).json(createdOrder);
+    const createdOrderProduct = await opStore.create(createdOrder.id, productQty);
+    res.status(200).json(createdOrderProduct);
   } catch (error) {
     res.status(400).json(generateErrorOnCreate('order'));
   }

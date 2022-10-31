@@ -37,7 +37,8 @@ export class ProductStore {
 
   async popular(): Promise<Product[]> {
     try {
-      const sql = 'SELECT *, SUM(quantity) as SUM FROM orders GROUP BY product_id, id ORDER BY SUM DESC LIMIT 5';
+      // const sql = 'SELECT *, SUM(quantity) as SUM FROM orders GROUP BY product_id, id ORDER BY SUM DESC LIMIT 5';
+      const sql = 'SELECT *, SUM(quantity) as SUM FROM products JOIN order_product ON products.id=order_product.product_id GROUP BY order_product.id, products.id ORDER BY SUM DESC LIMIT 5';
       const conn = await Client.connect();
       const result = await conn.query(sql);
       conn.release();

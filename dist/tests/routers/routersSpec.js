@@ -37,24 +37,12 @@ describe('Test user API', () => {
         const response = await request.get('/users/').set('Authorization', `Bearer ${userToken}`);
         expect(response.status).toBe(403);
     });
-    it('POST /users user can not create user', async () => {
-        const response = await request.post('/users').set('Authorization', `Bearer ${userToken}`).send(const_1.user);
-        expect(response.status).toBe(403);
-    });
     it('GET /users invalid user can not get all user info', async () => {
         const response = await request.get('/users/').set('Authorization', `Bearer ${invalidToken}`);
         expect(response.status).toBe(403);
     });
-    it('POST /users invalid user can not create user', async () => {
-        const response = await request.post('/users').set('Authorization', `Bearer ${invalidToken}`).send(const_1.user);
-        expect(response.status).toBe(403);
-    });
     it('GET /users unknown user can not get all user info', async () => {
         const response = await request.get('/users/');
-        expect(response.status).toBe(401);
-    });
-    it('POST /users unknown user can not create user', async () => {
-        const response = await request.post('/users').send(const_1.user);
         expect(response.status).toBe(401);
     });
 });
@@ -64,7 +52,7 @@ describe('Test product API', () => {
         expect(response.status).toBe(200);
     });
     it('GET /products/category user can get products by category', async () => {
-        const response = await request.get('/products/category').send({ category: const_1.category });
+        const response = await request.get('/products/category').send({ category: const_1.category1 });
         expect(response.status).toBe(200);
     });
     it('GET /products/popular user can get products by best buy', async () => {
@@ -76,19 +64,19 @@ describe('Test product API', () => {
         expect(response.status).toBe(200);
     });
     it('POST /products admin can create products', async () => {
-        const response = await request.post('/products').set('Authorization', `Bearer ${adminToken}`).send(const_1.product);
+        const response = await request.post('/products').set('Authorization', `Bearer ${adminToken}`).send(const_1.product1);
         expect(response.status).toBe(200);
     });
     it('POST /products user can not create products', async () => {
-        const response = await request.post('/products').set('Authorization', `Bearer ${userToken}`).send(const_1.product);
+        const response = await request.post('/products').set('Authorization', `Bearer ${userToken}`).send(const_1.product1);
         expect(response.status).toBe(403);
     });
     it('POST /products invalid user can not create products', async () => {
-        const response = await request.post('/products').set('Authorization', `Bearer ${invalidToken}`).send(const_1.product);
+        const response = await request.post('/products').set('Authorization', `Bearer ${invalidToken}`).send(const_1.product1);
         expect(response.status).toBe(403);
     });
     it('POST /products unknown user can not create products', async () => {
-        const response = await request.post('/products').send(const_1.product);
+        const response = await request.post('/products').send(const_1.product1);
         expect(response.status).toBe(401);
     });
 });
@@ -129,7 +117,7 @@ describe('Test order API', () => {
         const response = await request.post('/orders').send(const_1.order);
         expect(response.status).toBe(401);
     });
-    it('POST /orders user can not create order', async () => {
+    it('POST /orders user can create order', async () => {
         const response = await request.post('/orders').set('Authorization', `Bearer ${userToken}`).send(const_1.order);
         expect(response.status).toBe(403);
     });

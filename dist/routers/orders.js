@@ -1,9 +1,11 @@
 "use strict";
 Object.defineProperty(exports, "__esModule", { value: true });
 const token_1 = require("../middleware/token");
+const order_product_1 = require("../models/order-product");
 const orders_1 = require("../models/orders");
 const utils_1 = require("../utils");
 const store = new orders_1.OrderStore();
+const opStore = new order_product_1.OrderProductStore();
 const index = async (req, res) => {
     try {
         const orders = await store.index();
@@ -27,21 +29,19 @@ const show = async (req, res) => {
     }
 };
 const create = async (req, res) => {
-    const productId = req.body.productId;
-    const quantity = req.body.quantity;
     const userId = req.query.userId || req.body.quantity || '';
-    if (!productId || !quantity || !userId)
+    const productQty = JSON.parse(req.body.product);
+    if (!userId || !productQty || productQty.length === 0)
         return res.status(400).json(utils_1.errorMissingField);
     try {
         const order = {
             id: 0,
-            product_id: productId,
-            quantity,
             user_id: userId,
             status: 'new'
         };
         const createdOrder = await store.create(order);
-        res.status(200).json(createdOrder);
+        const createdOrderProduct = await opStore.create(createdOrder.id, productQty);
+        res.status(200).json(createdOrderProduct);
     }
     catch (error) {
         res.status(400).json((0, utils_1.generateErrorOnCreate)('order'));
