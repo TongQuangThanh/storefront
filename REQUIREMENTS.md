@@ -58,11 +58,43 @@ required
 - price
 - [OPTIONAL] category
 
+##### DB Schema
+CREATE TABLE IF NOT EXISTS products (
+  id SERIAL PRIMARY KEY,
+  name VARCHAR(100),
+  price integer,
+  category VARCHAR(100)
+);
+##### Data shape
+export type Product = {
+  id: number;
+  name: string;
+  price: number;
+  category: string;
+}
+
 #### User
 - id
 - firstName
 - lastName
 - password
+
+##### DB Schema
+CREATE TABLE IF NOT EXISTS users (
+  id SERIAL PRIMARY KEY,
+  firstName VARCHAR(100),
+  lastName VARCHAR(100),
+  password VARCHAR,
+  role VARCHAR(100)
+);
+##### Data shape
+export type User = {
+  id: number;
+  firstName: string;
+  lastName: string;
+  password: string;
+  role: string;
+}
 
 #### Orders
 - id
@@ -71,3 +103,20 @@ required
 - user_id
 - status of order (active or complete)
 
+##### DB Schema
+CREATE TABLE IF NOT EXISTS orders (
+  id SERIAL PRIMARY KEY,
+  product_id SERIAL REFERENCES products,
+  user_id SERIAL REFERENCES users,
+  quantity integer,
+  status VARCHAR(100)
+);
+##### Data shape
+
+export type Order = {
+  id: number;
+  user_id: number;
+  product_id: number;
+  quantity: number;
+  status: string;
+}

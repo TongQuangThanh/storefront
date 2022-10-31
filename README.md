@@ -30,3 +30,6 @@ Your application must make use of the following libraries:
 - db-migrate from npm for migrations
 - jsonwebtoken from npm for working with JWTs
 - jasmine from npm for testing
+
+##### Note:
+Including .env for project submission and this action should not use in real business project
