@@ -6,7 +6,7 @@ import orderRouters from './routers/orders';
 import userRouters from './routers/users';
 
 export const app: express.Application = express();
-const port = 3000;
+const port = process.env.PORT;
 
 const corsOptions = {
   origin: '',

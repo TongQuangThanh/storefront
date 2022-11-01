@@ -11,7 +11,7 @@ const products_1 = __importDefault(require("./routers/products"));
 const orders_1 = __importDefault(require("./routers/orders"));
 const users_1 = __importDefault(require("./routers/users"));
 exports.app = (0, express_1.default)();
-const port = 3000;
+const port = process.env.PORT;
 const corsOptions = {
     origin: '',
     optionSuccessStatus: 200
